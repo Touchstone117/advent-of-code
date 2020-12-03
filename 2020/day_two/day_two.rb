@@ -27,18 +27,33 @@ class DayTwo
     parsed_line
   end
 
-  def evaluate_password(parsed_line)
+  def evaluate_password_part_one(parsed_line)
     instances = parsed_line[:password].count(
       parsed_line[:rule_char]
-    ) 
+    )
 
     instances >= parsed_line[:range_start] && instances <= parsed_line[:range_end]
+  end
+
+  def evaluate_password_part_two(parsed_line)
+    first = parsed_line[:password][parsed_line[:range_start] - 1]
+    second = parsed_line[:password][parsed_line[:range_end] - 1]
+
+    (first == parsed_line[:rule_char]) ^ (second == parsed_line[:rule_char])
   end
 
   def solve_part_one
     count = 0
     @parsed_input.each do |line|
-      count += 1 if evaluate_password(parse_line(line))
+      count += 1 if evaluate_password_part_one(parse_line(line))
+    end
+    count
+  end
+
+  def solve_part_two
+    count = 0
+    @parsed_input.each do |line|
+      count += 1 if evaluate_password_part_two(parse_line(line))
     end
     count
   end
