@@ -60,7 +60,7 @@ class DayThree
     routes.each do |move|
       trees << count_trees(move[0], move[1])
     end
-    
+
     trees.reject(&:zero?).inject(:*)
   end
 end

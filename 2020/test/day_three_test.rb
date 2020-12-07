@@ -19,7 +19,7 @@ class DayThreeTest < Minitest::Test
   end
 
   def test_part_2_real
-    assert_equal 2224913600, DayThree.new(DayThreeInput.real).solve_part_two
+    assert_equal 2_224_913_600, DayThree.new(DayThreeInput.real).solve_part_two
   end
 end
 
