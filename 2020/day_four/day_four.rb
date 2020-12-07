@@ -35,6 +35,42 @@ class DayFour
     required_keys.all? { |key| passport.key? key.to_sym }
   end
 
+  def validate_fields(passport)
+    # byr (Birth Year) - four digits; at least 1920 and at most 2002.
+    return false unless passport[:byr].to_i.between?(1920, 2002)
+
+    # iyr (Issue Year) - four digits; at least 2010 and at most 2020.
+    return false unless passport[:iyr].to_i.between?(2010, 2020)
+
+    # eyr (Expiration Year) - four digits; at least 2020 and at most 2030.
+    return false unless passport[:eyr].to_i.between?(2020, 2030)
+
+    # hgt (Height) - a number followed by either cm or in:
+    # If cm, the number must be at least 150 and at most 193.
+    # If in, the number must be at least 59 and at most 76.
+    if passport[:hgt].end_with?('cm')
+      return false unless passport[:hgt].to_i.between?(150, 193)
+    elsif passport[:hgt].end_with?('in')
+      return false unless passport[:hgt].to_i.between?(59, 76)
+    else
+      return false
+    end
+
+    # hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
+    return false unless passport[:hcl].match?(/#[0-9a-f-A-F]{6}/)
+
+    # ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
+    valid_ecl = %w[amb blu brn gry grn hzl oth]
+    return false unless valid_ecl.include?(passport[:ecl]) && passport[:ecl].length == 3
+
+    # pid (Passport ID) - a nine-digit number, including leading zeroes.
+    return false unless passport[:pid].match?(/^\d{9}$/)
+
+    puts passport[:pid]
+
+    true
+  end
+
   def solve_part_one
     valid = 0
 
@@ -44,10 +80,26 @@ class DayFour
 
     valid
   end
+
+  def solve_part_two
+    valid = 0
+    has_all_fields = []
+    @test_input.each do |passport|
+      next unless contains_required(passport)
+
+      has_all_fields << passport
+    end
+
+    has_all_fields.each do |passport|
+      valid += 1 if validate_fields(passport)
+    end
+
+    valid
+  end
 end
 
 module DayFourInput
-  def self.practice
+  def self.practice_part_one
     "
       ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
       byr:1937 iyr:2017 cid:147 hgt:183cm
@@ -62,6 +114,61 @@ module DayFourInput
 
       hcl:#cfa07d eyr:2025 pid:166559648
       iyr:2011 ecl:brn hgt:59in
+    "
+  end
+
+  def self.practice_part_two
+    "
+      eyr:1972 cid:100
+      hcl:#18171d ecl:amb hgt:170 pid:186cm iyr:2018 byr:1926
+
+      iyr:2019
+      hcl:#602927 eyr:1967 hgt:170cm
+      ecl:grn pid:012533040 byr:1946
+
+      hcl:dab227 iyr:2012
+      ecl:brn hgt:182cm pid:021572410 eyr:2020 byr:1992 cid:277
+
+      hgt:59cm ecl:zzz
+      eyr:2038 hcl:74454a iyr:2023
+      pid:3556412378 byr:2007
+
+      pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
+      hcl:#623a2f
+
+      eyr:2029 ecl:blu cid:129 byr:1989
+      iyr:2014 pid:896056539 hcl:#a97842 hgt:165cm
+
+      hcl:#888785
+      hgt:164cm byr:2001 iyr:2015 cid:88
+      pid:545766238 ecl:hzl
+      eyr:2022
+
+      iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719
+
+      pid:08749970 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
+      hcl:#623a2f
+
+      pid:087499704 hgt:77in ecl:grn iyr:2012 eyr:2030 byr:1980
+      hcl:#623a2f
+
+      pid:087499704 hgt:58in ecl:grn iyr:2012 eyr:2030 byr:1980
+      hcl:#623a2f
+
+      pid:087499704 hgt:149cm ecl:grn iyr:2012 eyr:2030 byr:1980
+      hcl:#623a2f
+
+      pid:087499704 hgt:74 ecl:grn iyr:2012 eyr:2030 byr:1980
+      hcl:#623a2f
+
+      pid:087499704 hgt:74in ecl:grnblu iyr:2012 eyr:2030 byr:1980
+      hcl:#623a2f
+
+      pid:087499704 hgt:74in ecl:grn iyr:201 eyr:2030 byr:1980
+      hcl:#623a2
+
+      pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
+      hcl:a623a2f
     "
   end
 
