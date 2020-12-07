@@ -27,3 +27,6 @@ Documentation:
 
 Naming/AccessorMethodName:
   Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
