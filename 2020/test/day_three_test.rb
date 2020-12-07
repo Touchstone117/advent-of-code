@@ -13,6 +13,14 @@ class DayThreeTest < Minitest::Test
   def test_part_1_real
     assert_equal 259, DayThree.new(DayThreeInput.real).solve_part_one
   end
+
+  def test_part_2_practice
+    assert_equal 336, DayThree.new(DayThreeInput.practice).solve_part_two
+  end
+
+  def test_part_2_real
+    assert_equal 2224913600, DayThree.new(DayThreeInput.real).solve_part_two
+  end
 end
 
 class MapBuilderTest < MiniTest::Test

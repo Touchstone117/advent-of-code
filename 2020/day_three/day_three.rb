@@ -9,7 +9,7 @@ class DayThree
     @test_input = input_data
   end
 
-  def solve_part_one
+  def count_trees(x, y)
     map = MapBuilder.new(@test_input.dup)
     navigator = Navigator.new(map.current_map)
     open_squares = 0
@@ -37,10 +37,31 @@ class DayThree
         end
       end
 
-      navigator.move_position(3, 1)
+      navigator.move_position(x, y)
     end
 
     trees
+  end
+
+  def solve_part_one
+    count_trees(3, 1)
+  end
+
+  def solve_part_two
+    routes = [
+      [1, 1],
+      [3, 1],
+      [5, 1],
+      [7, 1],
+      [1, 2]
+    ]
+
+    trees = []
+    routes.each do |move|
+      trees << count_trees(move[0], move[1])
+    end
+    
+    trees.reject(&:zero?).inject(:*)
   end
 end
 
