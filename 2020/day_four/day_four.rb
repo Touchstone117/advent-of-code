@@ -9,9 +9,10 @@ class DayFour
 
   def parse_input(input_data)
     split_lines = input_data.split(/\n{2,}/)
-    # puts split_lines, 'hi'
+
     passports = []
     out = {}
+
     split_lines.each do |line|
       line.split(' ').each do |pair|
         out[pair.split(':')[0].to_sym] = pair.split(':')[1]
@@ -65,8 +66,6 @@ class DayFour
 
     # pid (Passport ID) - a nine-digit number, including leading zeroes.
     return false unless passport[:pid].match?(/^\d{9}$/)
-
-    puts passport[:pid]
 
     true
   end

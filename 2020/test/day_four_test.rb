@@ -17,6 +17,6 @@ class DayFourTest < Minitest::Test
   end
 
   def test_part_2_real
-    assert_equal 260, DayFour.new(DayFourInput.real).solve_part_two
+    assert_equal 153, DayFour.new(DayFourInput.real).solve_part_two
   end
 end
