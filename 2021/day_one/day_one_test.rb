@@ -14,11 +14,19 @@ end
 
 class DayOneTest < MiniTest::Test
   def test_day_one_part_one_practice
-    assert_equal 7, DayOne.new(DayOneInput.practice).solve
+    assert_equal 7, DayOne.new(DayOneInput.practice).solve_part_one
   end
 
   def test_day_one_part_one_real
-    assert_equal 1215, DayOne.new(DayOneInput.real).solve
+    assert_equal 1215, DayOne.new(DayOneInput.real).solve_part_one
+  end
+
+  def test_day_one_part_two_practice
+    assert_equal 5, DayOne.new(DayOneInput.practice).solve_part_two
+  end
+
+  def test_day_one_part_two_real
+    assert_equal 1215, DayOne.new(DayOneInput.real).solve_part_two
   end
 end
 
@@ -27,7 +35,7 @@ class DayOne
     @input = input
   end
 
-  def solve
+  def solve_part_one
     @output = []
     @input.length.times do |i|
       first = if i.zero?
@@ -57,6 +65,8 @@ class DayOne
       case value
       when 'N/A'
         next
+      when 'no change'
+        next
       when 'increased'
         increased += 1
       when 'decreased'
@@ -66,7 +76,7 @@ class DayOne
       end
     end
 
-    puts "increased #{increased} + decreased #{decreased}"
+    # puts "increased #{increased} + decreased #{decreased}"
     { increased: increased, decreased: decreased }
   end
 
@@ -75,7 +85,26 @@ class DayOne
 
     return 'increased' if first.to_i < second.to_i
     return 'decreased' if first.to_i > second.to_i
+    return 'no change' if first.to_i == second.to_i
 
     raise 'Broken'
+  end
+
+  def get_window_sum(start)
+    finish = start + 2
+    @input[start..finish].map(&:to_i).sum
+  end
+
+  def solve_part_two
+    @output = []
+    @input.length.times do |i|
+      first = get_window_sum(i)
+
+      second = get_window_sum(i + 1)
+
+      @output << depth_change(first, second)
+    end
+
+    count[:increased]
   end
 end
