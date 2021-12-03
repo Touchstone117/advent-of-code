@@ -14,23 +14,23 @@ end
 
 class DayTwoTest < MiniTest::Test
   def test_day_one_part_one_practice
-    assert_equal 150, DayTwo.new(DayTwoInput.practice).solve_part_one
+    assert_equal 150, DayTwoPartOne.new(DayTwoInput.practice).solve_part_one
   end
 
   def test_day_one_part_one_real
-    assert_equal 1_989_014, DayTwo.new(DayTwoInput.real).solve_part_one
+    assert_equal 1_989_014, DayTwoPartOne.new(DayTwoInput.real).solve_part_one
   end
 
-  # def test_day_one_part_two_practice
-  #   assert_equal 5, DayTwo.new(DayTwoInput.practice).solve_part_two
-  # end
+  def test_day_one_part_two_practice
+    assert_equal 900, DayTwoPartTwo.new(DayTwoInput.practice).solve_part_two
+  end
 
-  # def test_day_one_part_two_real
-  #   assert_equal 1150, DayTwo.new(DayTwoInput.real).solve_part_two
-  # end
+  def test_day_one_part_two_real
+    assert_equal 2_006_917_119, DayTwoPartTwo.new(DayTwoInput.real).solve_part_two
+  end
 end
 
-class DayTwo
+class DayTwoPartOne
   def initialize(input)
     @input = input
     @horizontal = 0
@@ -43,7 +43,7 @@ class DayTwo
     #   eval("#{split[0]}(#{split[1]})")
     # end
 
-    @input.each do |value| 
+    @input.each do |value|
       eval value
     end
 
@@ -60,5 +60,36 @@ class DayTwo
 
   def up(number)
     @depth -= number
+  end
+end
+
+class DayTwoPartTwo
+  def initialize(input)
+    @input = input
+    @horizontal = 0
+    @depth = 0
+    @aim = 0
+  end
+
+  def solve_part_two
+    @input.each do |value|
+      eval value
+    end
+
+    @horizontal * @depth
+  end
+
+  def forward(number)
+    @horizontal += number
+    adjustment = @aim * number
+    @depth += adjustment
+  end
+
+  def down(number)
+    @aim += number
+  end
+
+  def up(number)
+    @aim -= number
   end
 end
