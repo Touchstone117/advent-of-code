@@ -61,10 +61,10 @@ end
 
 module DayTwoInput
   def self.practice
-    File.readlines('./2020/day_two/part_one_practice_input.txt')
+    File.readlines('./day_two/part_one_practice_input.txt')
   end
 
   def self.real
-    File.readlines('./2020/day_two/part_one_real_input.txt')
+    File.readlines('./day_two/part_one_real_input.txt')
   end
 end
