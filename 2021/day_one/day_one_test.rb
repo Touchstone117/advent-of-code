@@ -18,7 +18,7 @@ class DayOneTest < MiniTest::Test
   end
 
   def test_day_one_part_one_real
-    assert_equal 7, DayOne.new(DayOneInput.real).solve
+    assert_equal 1215, DayOne.new(DayOneInput.real).solve
   end
 end
 
@@ -41,10 +41,10 @@ class DayOne
       @output << depth_change(first, second)
     end
 
-    @output.length.times do |i|
-      a = "#{@input[i].strip} (#{@output[i].strip})\n"
-      File.write('out.txt', a, mode: 'a')
-    end
+    # @output.length.times do |i|
+    #   a = "#{@input[i].strip} (#{@output[i].strip})\n"
+    #   File.write('out.txt', a, mode: 'a')
+    # end
 
     count[:increased]
   end
