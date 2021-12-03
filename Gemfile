@@ -6,4 +6,5 @@ source 'https://rubygems.org'
 
 gem 'm'
 gem 'minitest'
+gem 'minitest-reporters'
 gem 'rubocop'

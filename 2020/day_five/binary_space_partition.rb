@@ -26,7 +26,7 @@ class BinarySpacePartition
     return range_start if range_start == range_end
 
     current = code[0]
-    code = code[1..-1]
+    code = code[1..]
 
     range = (range_start..range_end).entries
     range_mid = range[range.length / 2]
