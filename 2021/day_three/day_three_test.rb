@@ -33,8 +33,6 @@ end
 class DayThree
   def initialize(input)
     @input = input
-    @horizontal = 0
-    @depth = 0
   end
 
   def count_bits(input_bits)
