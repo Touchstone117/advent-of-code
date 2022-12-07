@@ -1,5 +1,5 @@
-import fs from 'fs';
-import * as path from 'path';
+import fs from "fs";
+import * as path from "path";
 
 export class Inputs {
   load(filePath: string): string {
@@ -13,6 +13,54 @@ export class Inputs {
   }
 
   dayOnePractice(): string {
-    return this.load('inputs/1-practice.txt');
+    return this.load("inputs/1-practice.txt");
+  }
+
+  dayOneReal() {
+    return this.load("inputs/1-real.txt");
+  }
+
+  dayTwoPractice(): string {
+    return this.load("inputs/2-practice.txt");
+  }
+
+  dayTwoReal() {
+    return this.load("inputs/2-real.txt");
+  }
+
+  dayThreePractice() {
+    return this.load("inputs/3-practice.txt");
+  }
+
+  dayThreePrReal() {
+    return this.load("inputs/3-real.txt");
+  }
+
+  dayFourPractice() {
+    return this.load("inputs/4-practice.txt");
+  }
+
+  dayFourReal() {
+    return this.load("inputs/4-real.txt");
+  }
+
+  dayFivePractice() {
+    return this.load("inputs/5-practice.txt");
+  }
+
+  dayFiveReal() {
+    return this.load("inputs/5-real.txt");
+  }
+
+  daySixReal() {
+    return this.load("inputs/6-real.txt");
+  }
+
+  daySevenPractice() {
+    return this.load("inputs/7-practice.txt");
+  }
+
+  daySevenReal() {
+    return this.load("inputs/7-real.txt");
   }
 }
