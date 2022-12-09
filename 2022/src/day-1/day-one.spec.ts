@@ -17,7 +17,7 @@ describe("day one tests", () => {
     expect(solution).toEqual("45000");
   });
 
-  it("should resolve the real input for part tpw", () => {
+  it("should resolve the real input for part two", () => {
     const solution: string = new DayOne(new Inputs().dayOneReal()).solvePartTwo();
     expect(solution).toEqual("198041");
   });
