@@ -79,4 +79,12 @@ export class Inputs {
   dayNineReal() {
     return this.load("inputs/9-real.txt");
   }
+
+  dayTenPractice() {
+    return this.load("inputs/10-practice.txt");
+  }
+
+  dayTenReal() {
+    return this.load("inputs/10-real.txt");
+  }
 }
