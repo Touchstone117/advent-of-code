@@ -80,22 +80,22 @@ abstract class RopePiece {
 
   private stepLeft(): this {
     this.currentPosition.x -= 1;
-    return this
+    return this;
   }
 
   private stepRight(): this {
     this.currentPosition.x += 1;
-    return this
+    return this;
   }
 
   private stepUp(): this {
     this.currentPosition.y += 1;
-    return this
+    return this;
   }
 
   private stepDown(): this {
     this.currentPosition.y -= 1;
-    return this
+    return this;
   }
 
   currentPositionJSON(): string {
@@ -116,13 +116,13 @@ abstract class RopePiece {
     if (!this.closeEnough(separation)) {
       if (this.horizontalOnly(separation)) {
         this.moveHorizontal(separation);
-        console.log("move horizontal " + (separation.x - 1) );
+        console.log("move horizontal " + (separation.x - 1));
       } else if (this.verticalOnly(separation)) {
-        this.moveVertical(separation );
-        console.log("move vertical " + (separation.y - 1) );
+        this.moveVertical(separation);
+        console.log("move vertical " + (separation.y - 1));
       } else {
-        this.moveDiagonal(separation)
-        console.log(">> move ?? " +  + (separation.x) + ":"  + (separation.y) );
+        this.moveDiagonal(separation);
+        console.log(">> move ?? " + +separation.x + ":" + separation.y);
       }
     }
   }
@@ -131,25 +131,25 @@ abstract class RopePiece {
     switch (seperation.x) {
       case -1:
       case -2: {
-        this.rope.tail.stepLeft()
-        break
+        this.rope.tail.stepLeft();
+        break;
       }
       case 1:
       case 2: {
-        this.rope.tail.stepRight()
-        break
+        this.rope.tail.stepRight();
+        break;
       }
     }
     switch (seperation.y) {
       case -1:
       case -2: {
-        this.rope.tail.stepDown()
-        break
+        this.rope.tail.stepDown();
+        break;
       }
       case 1:
       case 2: {
-        this.rope.tail.stepUp()
-        break
+        this.rope.tail.stepUp();
+        break;
       }
     }
     // if (seperation.x == 1 && seperation.y == 2) {
@@ -161,11 +161,11 @@ abstract class RopePiece {
     // } else if (seperation.x == -2 && seperation.y == 1) {
     //   this.rope.tail.stepLeft().stepUp();
     // }
-    console.log(seperation)
+    console.log(seperation);
   }
 
   private moveHorizontal(seperation: Position) {
-    console.log(" this number is : " + seperation.x)
+    console.log(" this number is : " + seperation.x);
     if (seperation.x > 0) {
       this.rope.tail.moveTail({ direction: "R", distance: 1 });
     } else {
@@ -211,30 +211,31 @@ abstract class RopePiece {
     //   y = this.rope.tail.currentPosition.y - this.rope.head.currentPosition.y
     // }
 
-    console.log("head: " +this.rope.head.currentPositionJSON() + "\ntail: " +this.rope.tail.currentPositionJSON())
+    console.log("head: " + this.rope.head.currentPositionJSON() + "\ntail: " + this.rope.tail.currentPositionJSON());
     // console.log(
     //   "! x: " + (this.rope.head.currentPosition.x - this.rope.tail.currentPosition.x) +
     //   "y: " + (this.rope.head.currentPosition.y - this.rope.tail.currentPosition.y) +
     //   "! head: " + (this.rope.head.currentPosition.x) +
     //   "tail: " + (this.rope.tail.currentPosition.x)
     // )
-    
+
     return {
       x: this.rope.head.currentPosition.x - this.rope.tail.currentPosition.x,
-      y: this.rope.head.currentPosition.y - this.rope.tail.currentPosition.y
-    }};
+      y: this.rope.head.currentPosition.y - this.rope.tail.currentPosition.y,
+    };
+  }
 
   private closeEnough(seperation: Position): boolean {
     if (this.rope.head.currentPositionJSON() == this.rope.tail.currentPositionJSON()) {
       return true;
     }
 
-    const position = seperation
+    const position = seperation;
 
-    if ((position.x <= 1 && position.x >= -1) &&(position.y <= 1 && position.y >= -1)) {
-      if (position.x )
-      // console.log(">> close enough - position: " + position.x + ":" + position.y)
-      return true;
+    if (position.x <= 1 && position.x >= -1 && position.y <= 1 && position.y >= -1) {
+      if (position.x)
+        // console.log(">> close enough - position: " + position.x + ":" + position.y)
+        return true;
     }
     // console.log(">> need to move - position: " + position.x + ":" + position.y)
     return false;
