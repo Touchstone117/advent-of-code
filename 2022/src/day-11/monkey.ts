@@ -51,21 +51,27 @@ export class Monkey {
       this.inspectedItems += 1;
       // person.worryMore(this.operation)
 
+
       let newValue = eval(this.operation)
+
+      console.log(`${this.operation} old: ${old} answer: ${newValue}`)
       // person.worryLevelDivideBy(3)
 
       newValue /= 3
 
       newValue = Math.floor(newValue)
 
-      // console.log(newValue)
+      // console.log("after division: " + newValue)
 
       // this.performTest(person.currentWorryLevel()) ?
-      this.performTest(newValue) ?
-        this.throwItem(this.getTest().ifTrue, newValue) :
+      if (this.performTest(newValue)) {
+        this.throwItem(this.getTest().ifTrue, newValue)
+      }
+      else {
         this.throwItem(this.getTest().ifFalse, newValue)
+      }
 
-      // console.log(`now its ${newValue}`)
+      // console.log(`now its ${this.showItems()}`)
     });
 
     this.items = []
@@ -80,6 +86,10 @@ export class Monkey {
     return this;
   }
 
+  showItems(): number[] {
+    return this.items
+  }
+
   private performTest(worryLevel: number): boolean {
     console.log(worryLevel + " :" + this.getTest().divisibleValue )
    return (worryLevel % this.getTest().divisibleValue == 0)
@@ -87,7 +97,7 @@ export class Monkey {
 
   private throwItem(receiver: Monkey, item: number) {
     // const item = this.items.splice(itemIndex, 1)
-    receiver.giveItem(Math.floor(item))
+    receiver.giveItem(item)
     return this
   }
 

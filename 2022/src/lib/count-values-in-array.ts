@@ -5,3 +5,11 @@ export function countAllValuesInArray(array: any[]): number {
   });
   return count;
 }
+
+export function multiplyAllValuesInArray(array: any[]): number {
+  let count = 1;
+  array.forEach((value) => {
+    if (!(value instanceof Number)) count *= Number.parseInt(value);
+  });
+  return count;
+}

@@ -1,4 +1,5 @@
 import { Monkey, Test } from "./monkey";
+import { multiplyAllValuesInArray } from "../lib/count-values-in-array";
 
 export class Person {
   private worryLevel: number = 0;
@@ -29,7 +30,7 @@ export class DayEleven {
     console.log("Day Eleven, puzzle input: \n" + this.puzzleInput);
 
     this.parser();
-    this.executeRounds(20);
+
   }
 
   private parser() {
@@ -79,28 +80,30 @@ export class DayEleven {
       throw "no test";
     }
 
-    const falseValue = test[1].match(/monkey (\d+)/);
+    const falseValue = test[2].match(/monkey (\d+)/);
     if (!falseValue) {
       throw "no false value";
     }
 
-    const trueValue = test[2].match(/monkey (\d+)/);
+    const trueValue = test[1].match(/monkey (\d+)/);
     if (!trueValue) {
       throw "no true value";
     }
 
     return {
       divisibleValue: Number.parseInt(testNumber[1]),
-      ifFalse: this.monkeys[Number.parseInt(falseValue[1])],
-      ifTrue: this.monkeys[Number.parseInt(trueValue[1])],
+      ifFalse: this.monkeys[(Number.parseInt(falseValue[1]))],
+      ifTrue: this.monkeys[(Number.parseInt(trueValue[1]))],
     };
   }
 
   private executeRound(monkey: Monkey) {
+    console.log(monkey.showItems())
     monkey.evaluateItems();
+    console.log(monkey.showItems())
   }
 
-  private executeRounds(numberOfRounds: number) {
+  executeRounds(numberOfRounds: number): this {
     // let x;
     //
     // const monkeyCount = this.monkeys.length;
@@ -118,15 +121,37 @@ export class DayEleven {
 
       this.monkeys.forEach((monkey) => {
         this.executeRound(monkey)
+        this.readMonkeysWorryLevels()
       })
 
     }
 
     console.log(this.monkeys)
+
+    return this
+  }
+
+  readMonkeys(): Monkey[] {
+    return this.monkeys
+  }
+
+  readMonkeysWorryLevels(): number[][] {
+    return this.monkeys.map((monkey) => monkey.showItems())
+  }
+
+  pickMostActive(number: number): Monkey[] {
+    return this.monkeys.sort((a, b) => {
+      return b.showInspectedItemsCount() - a.showInspectedItemsCount()
+    }).slice(0, number)
+  }
+
+  countMonkeyBusiness(monkeys: Monkey[]): number {
+    return multiplyAllValuesInArray(monkeys.map(monkey  => monkey.showInspectedItemsCount()))
   }
 
   solvePartOne(): string {
-    return "nope";
+    this.executeRounds(20);
+    return this.countMonkeyBusiness(this.pickMostActive(2)).toString()
   }
 
   solvePartTwo(): string {
