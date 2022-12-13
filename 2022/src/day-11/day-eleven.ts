@@ -1,36 +1,18 @@
 import { Monkey, Test } from "./monkey";
 import { multiplyAllValuesInArray } from "../lib/count-values-in-array";
 
-export class Person {
-  private worryLevel: number = 0;
-
-  currentWorryLevel(): number {
-    return this.worryLevel;
-  }
-
-  worryLevelDivideBy(number: number): this {
-    this.worryLevel = this.worryLevel / number;
-    return this;
-  }
-
-  worryMore(operation: string): this {
-    // @ts-ignore
-    let old = this.currentWorryLevel();
-    eval(operation);
-
-    return this;
-  }
+export enum WorryLevel {
+  DIVIDE,
+  PANICK,
 }
 
 export class DayEleven {
-  readonly you: Person = new Person();
   private monkeys: Monkey[] = [];
 
   constructor(private readonly puzzleInput: string) {
     console.log("Day Eleven, puzzle input: \n" + this.puzzleInput);
 
     this.parser();
-
   }
 
   private parser() {
@@ -92,69 +74,90 @@ export class DayEleven {
 
     return {
       divisibleValue: Number.parseInt(testNumber[1]),
-      ifFalse: this.monkeys[(Number.parseInt(falseValue[1]))],
-      ifTrue: this.monkeys[(Number.parseInt(trueValue[1]))],
+      ifFalse: this.monkeys[Number.parseInt(falseValue[1])],
+      ifTrue: this.monkeys[Number.parseInt(trueValue[1])],
     };
   }
 
-  private executeRound(monkey: Monkey) {
-    console.log(monkey.showItems())
-    monkey.evaluateItems();
-    console.log(monkey.showItems())
-  }
-
-  executeRounds(numberOfRounds: number): this {
-    // let x;
-    //
-    // const monkeyCount = this.monkeys.length;
-    // let toRemove: number;
-    // for (let i = 0; i < numberOfRounds; i++) {
-    //   x = i
-    //   if (x > (monkeyCount - 1)) {
-    //     toRemove = (x - (x % monkeyCount))/monkeyCount
-    //     x -= (monkeyCount * toRemove)
-    //   }
-    //   console.log(i + " : " + x)
-    //   this.executeRound(this.monkeys[x])
-    // }
+  executeRounds(numberOfRounds: number, worryLevel: WorryLevel): this {
     for (let i = 0; i < numberOfRounds; i++) {
-
       this.monkeys.forEach((monkey) => {
-        this.executeRound(monkey)
-        this.readMonkeysWorryLevels()
-      })
-
+        monkey.evaluateItems(worryLevel);
+        this.readMonkeysWorryLevels();
+      });
     }
 
-    console.log(this.monkeys)
-
-    return this
+    return this;
   }
 
   readMonkeys(): Monkey[] {
-    return this.monkeys
+    return this.monkeys;
   }
 
   readMonkeysWorryLevels(): number[][] {
-    return this.monkeys.map((monkey) => monkey.showItems())
+    return this.monkeys.map((monkey) => monkey.showItems());
   }
 
   pickMostActive(number: number): Monkey[] {
-    return this.monkeys.sort((a, b) => {
-      return b.showInspectedItemsCount() - a.showInspectedItemsCount()
-    }).slice(0, number)
+    this.monkeys.forEach((monkey) => {
+      console.log(monkey.showInspectedItemsCount());
+    });
+
+    return this.monkeys
+      .sort((a, b) => {
+        return b.showInspectedItemsCount() - a.showInspectedItemsCount();
+      })
+      .slice(0, number);
   }
 
   countMonkeyBusiness(monkeys: Monkey[]): number {
-    return multiplyAllValuesInArray(monkeys.map(monkey  => monkey.showInspectedItemsCount()))
+    return multiplyAllValuesInArray(monkeys.map((monkey) => monkey.showInspectedItemsCount()));
+  }
+
+
+
+  lowestCommonFactor(arr: number[]): number {
+    let potentials: number[] = [];
+
+    for (let i = 1; i <= 10000; i++) {
+      arr.forEach((value) => {
+        potentials.push(value * i);
+      });
+    }
+
+    const winner = potentials
+      .sort((a, b) => a - b)
+      .filter((value: number, index: number, array: number[]) => {
+        // console.log(`${ value } == ${array[index-1]}`)
+        if (value == array[index - 1] && value == array[index - 2]) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .sort((a, b) => a - b);
+
+    if (!winner[0]) {
+      throw "couldn't find a lcf"
+    }
+
+    // console.log(winner)
+    return winner[0];
+  }
+
+  monkeysLowestTestFactor(): number {
+    const monkeyTestNumbers: number[] = this.monkeys.map(monkey => monkey.getTest().divisibleValue)
+    console.log(monkeyTestNumbers)
+    return this.lowestCommonFactor(monkeyTestNumbers)
   }
 
   solvePartOne(): string {
-    this.executeRounds(20);
-    return this.countMonkeyBusiness(this.pickMostActive(2)).toString()
+    this.executeRounds(20, WorryLevel.DIVIDE);
+    return this.countMonkeyBusiness(this.pickMostActive(2)).toString();
   }
 
   solvePartTwo(): string {
-    return "nope";
+    this.executeRounds(10000, WorryLevel.PANICK);
+    return this.countMonkeyBusiness(this.pickMostActive(2)).toString();
   }
 }
