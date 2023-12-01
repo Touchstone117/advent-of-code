@@ -1,0 +1,21 @@
+{
+  "name": "2023",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc",
+    "lint": "prettier --config prettier.config.js 'src/**/*.ts' --write",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "29.5.10",
+    "eslint-config-prettier": "9.0.0",
+    "eslint-plugin-prettier": "5.0.1",
+    "prettier": "3.1.0",
+    "ts-jest": "29.1.1",
+    "typescript": "5.3.2"
+  }
+}
